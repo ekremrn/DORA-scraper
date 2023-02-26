@@ -3,8 +3,8 @@ import os
 
 from bs4 import BeautifulSoup
 
-from dora_scraper.base_scraper import Scraper
-from dora_scraper.structures import Currencies
+from base_scraper import Scraper
+from structures import Currencies
 
 
 class TrendyolScraper(Scraper):

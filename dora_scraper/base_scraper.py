@@ -10,8 +10,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-from dora_scraper.structures import Paths
-from dora_scraper.utils.download import download_image
+from structures import Paths
+from utils.download import download_image
 
 class Scraper:
     def __init__(self, delay=1):
