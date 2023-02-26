@@ -69,7 +69,7 @@ if __name__ == "__main__":
     from argparse import ArgumentParser
 
     parser = ArgumentParser()
-    parser.add_argument("-p", "--path", type=str, default="links/trendyol_small.json")
+    parser.add_argument("-p", "--path", type=str, default="links/trendyol_dress.json")
     parser.add_argument("-n", "--page_number", type=int, default=10)
     parser.add_argument("-d", "--delay", type=int, default=2)
     opt = parser.parse_args()
