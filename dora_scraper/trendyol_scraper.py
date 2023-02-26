@@ -1,12 +1,10 @@
 import os
-import json
 
 
-from typing import Dict
 from bs4 import BeautifulSoup
 
 from dora_scraper.base_scraper import Scraper
-from dora_scraper.structures import Currencies, Paths
+from dora_scraper.structures import Currencies
 
 
 class TrendyolScraper(Scraper):
@@ -61,7 +59,20 @@ class TrendyolScraper(Scraper):
         
 
     #
-    def scrape_category_links(self, page_number:int=1):
-        json_path = os.path.join(Paths.LINKS_ROOT, "trendyol_categories.json")
+    def scrape_category_links(self, json_path, page_number:int=1):
         url_format = "{}?pi={}"
         super().scrape_category_links(json_path, url_format, page_number)
+
+
+
+if __name__ == "__main__":
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser()
+    parser.add_argument("-p", "--path", type=str, default="links/trendyol_small.json")
+    parser.add_argument("-n", "--page_number", type=int, default=10)
+    parser.add_argument("-d", "--delay", type=int, default=2)
+    opt = parser.parse_args()
+
+    ts = TrendyolScraper(opt.delay)
+    ts.scrape_category_links(opt.path, opt.page_number)
