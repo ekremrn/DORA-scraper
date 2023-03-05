@@ -14,12 +14,13 @@ from structures import Paths
 from utils.download import download_image
 
 class Scraper:
-    def __init__(self, delay=1):
+    def __init__(self, delay=1, download_images=True):
         self.driver = webdriver.Chrome(
             service=Service(ChromeDriverManager().install()),
             options=webdriver.ChromeOptions(),
         )
         self.delay = delay
+        self.download_images=download_images
 
     #
     def get(self, url: str):
@@ -93,10 +94,11 @@ class Scraper:
             image_path = product['thumb_image']['path']
             full_image_path = os.path.join(Paths.IMAGES_ROOT, image_path)
             image_url = product['thumb_image']['platform_url']
-            response = download_image(image_url, full_image_path)
+            if self.download_images:
+                response = download_image(image_url, full_image_path)
 
-            if response is False:
-                product['thumb_image']['path'] = None
+                if response is False:
+                    product['thumb_image']['path'] = None
 
             self.save_product(product)
 

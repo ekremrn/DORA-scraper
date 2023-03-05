@@ -74,5 +74,5 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--delay", type=int, default=2)
     opt = parser.parse_args()
 
-    ts = TrendyolScraper(opt.delay)
+    ts = TrendyolScraper(opt.delay, False)
     ts.scrape_category_links(opt.path, opt.page_number)
