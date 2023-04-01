@@ -1,32 +1,29 @@
 import os
 import json
 import time
+import requests
 
 from tqdm import tqdm
 from bs4 import BeautifulSoup
 from typing import Dict, List
-
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 
 from structures import Paths
 from utils.download import download_image
 
 class Scraper:
     def __init__(self, delay=1, download_images=True):
-        self.driver = webdriver.Chrome(
-            service=Service(ChromeDriverManager().install()),
-            options=webdriver.ChromeOptions(),
-        )
+        self.session = requests.Session()
+        self.session.headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+        }
         self.delay = delay
         self.download_images=download_images
 
     #
     def get(self, url: str):
-        self.driver.get(url)
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, "html.parser") if response.status_code == 200 else None
         time.sleep(self.delay)
-        soup = BeautifulSoup(self.driver.page_source, "html.parser")
         return soup
 
     #
