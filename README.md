@@ -4,7 +4,7 @@ Dora Scraper is a Python-based web scraper tool that can be used to extract data
 ## Requirements
 
 - Python 3.x
-- Requests library (pip install -r requirements.txt)
+- Requirements (pip install -r requirements.txt)
 
 
 ## Usage
