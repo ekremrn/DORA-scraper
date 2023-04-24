@@ -9,7 +9,7 @@ class Paths:
     ROOT = str(os.getenv("DORA_DATA_ROOT"))
 
     IMAGES_ROOT = os.path.join(ROOT, "images/")
-    DATA_ROOT = os.path.join(ROOT, "data.json")
+    DATA_PATH = os.path.join(ROOT, "data.json")
 
 @dataclass
 class Currencies:

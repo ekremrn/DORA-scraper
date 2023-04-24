@@ -1,13 +1,14 @@
 import os
 import json
 import time
-import requests
+import pandas as pd
 
 from tqdm import tqdm
 from bs4 import BeautifulSoup
 from typing import Dict, List
 
 from structures import Paths
+from utils.saver import ProductSaver
 from utils.download import download_image
 
 from selenium import webdriver
@@ -25,6 +26,8 @@ class Scraper:
         )
         self.delay = delay
         self.download_images=download_images
+
+        self.product_saver = ProductSaver(Paths.DATA_PATH)
 
     #
     def get(self, url: str):
@@ -72,22 +75,6 @@ class Scraper:
         }
         return product_dict
 
-
-    #
-    def save_product(self, product: Dict):
-        if os.path.exists(Paths.DATA_ROOT):
-            data = json.load(open(Paths.DATA_ROOT))
-        else:
-            data = list()
-        
-        if [row for row in data if row.get("id") == product.get("id")]:
-            return
-        
-        data.append(product)
-        with open(Paths.DATA_ROOT, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=4)
-
-
     #
     def product_from_category_page(self, product_soup: BeautifulSoup):
         pass
@@ -108,7 +95,7 @@ class Scraper:
                 if response is False:
                     product['thumb_image']['path'] = None
 
-            self.save_product(product)
+            self.product_saver.save_product(product)
 
     #
     def scrape_category_pages(self, category_dict: Dict, url_format: str, page_number: int):
