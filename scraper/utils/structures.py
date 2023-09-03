@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from dataclasses import dataclass
 
+
 @dataclass
 class Paths:
     load_dotenv()
@@ -10,6 +11,7 @@ class Paths:
 
     IMAGES_ROOT = os.path.join(ROOT, "images/")
     DATA_PATH = os.path.join(ROOT, "data.json")
+
 
 @dataclass
 class Currencies:
