@@ -24,10 +24,10 @@ SAVER = ProductSaver(opt.path, opt.platform_name)
 soup = get_soup(opt.platform_url)
 category_links = get_category_links(soup, opt.categories)
 
-for category_link in category_links:
+progress = tqdm(category_links, desc = opt.platform_name, ncols=100, colour="green")
+for category_link in progress:
     links = get_category_pages(category_link)
-    progress = tqdm(links, desc="{} - {}: ".format(opt.platform_name, category_link))
-    for link in progress:
+    for link in links:
         soup = get_soup(link)
         products = get_category_products(soup)
         SAVER.product_list(products)
