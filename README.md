@@ -32,3 +32,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Note
 This README file was written by ChatGPT-2. I didn't even have to make any changes. It's amazing :)
+
+docker pull selenium/standalone-chrome
+
+docker run -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome

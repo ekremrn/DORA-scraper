@@ -79,4 +79,3 @@ for row in tqdm(data, ncols=100, colour="green"):
     for index, image_url in enumerate(image_urls):
         target_image_path = os.path.join(target_path, "{}.jpg".format(index))
         download_image(source=image_url, target=target_image_path)
-
