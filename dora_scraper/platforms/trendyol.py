@@ -1,13 +1,22 @@
 import os
-
 from bs4 import BeautifulSoup
 from typing import List, Dict
 
-from utils.structures import Currencies
-from utils.standardizers import price_dict, thumb_image_dict, product_dict
+from dora_scraper.utils.structures import Currencies
+from dora_scraper.utils.standardizers import price_dict, thumb_image_dict, product_dict
 
 
-def get_category_links(soup: BeautifulSoup, categories: List[str]) -> List[str]:
+def extract_category_links(soup: BeautifulSoup, categories: List[str]) -> List[str]:
+    """
+    Extracts category links from the provided BeautifulSoup object.
+
+    Args:
+        soup (BeautifulSoup): The BeautifulSoup object representing a web page.
+        categories (List[str]): List of categories to extract links for.
+
+    Returns:
+        List[str]: A list of category links.
+    """
     main_categories = soup.find_all("li", {"class": "tab-link"})
     links = list()
     for main_category_soup in main_categories:
@@ -26,14 +35,33 @@ def get_category_links(soup: BeautifulSoup, categories: List[str]) -> List[str]:
     return links
 
 
-def get_category_pages(category_link: str, page_limit: int = 99) -> List[Dict]:
+def generate_pagination_urls(category_link: str, page_limit: int = 10) -> List[str]:
+    """
+    Generates pagination URLs for a given category link.
+
+    Args:
+        category_link (str): The base URL for the category.
+        page_limit (int): The number of pages to generate URLs for.
+
+    Returns:
+        List[str]: A list of pagination URLs.
+    """
     urls = ["{}?pi={}".format(category_link, i + 1) for i in range(0, page_limit)]
     return urls
 
 
-def get_category_products(soup: BeautifulSoup) -> List[Dict]:
-    soup_list = soup.find_all("div", {"class": "p-card-wrppr"})
+def extract_products_from_category_page(soup: BeautifulSoup) -> List[Dict]:
+    """
+    Extracts product data from the provided BeautifulSoup object.
+
+    Args:
+        soup (BeautifulSoup): The BeautifulSoup object representing a category page.
+
+    Returns:
+        List[Dict]: A list of dictionaries containing product information.
+    """
     products = list()
+    soup_list = soup.find_all("div", {"class": "p-card-wrppr"})
     for product_soup in soup_list:
         id = product_soup.get("data-id")
         name = product_soup.select("span.prdct-desc-cntnr-name")[0].get_text()

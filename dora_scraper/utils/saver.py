@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from typing import List, Dict
 
+
 class ProductSaver:
     def __init__(self, datapath: str, name: str = "data"):
         """
