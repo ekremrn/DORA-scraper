@@ -3,12 +3,12 @@ import os
 from tqdm import tqdm
 from argparse import ArgumentParser
 
-from utils.saver import ProductSaver
-from utils.browser import get_soup, DRIVER
-from platforms.trendyol import (
-    get_category_links,
-    get_category_pages,
-    get_category_products,
+from dora_scraper.utils.saver import ProductSaver
+from dora_scraper.utils.browser import get_soup, DRIVER
+from dora_scraper.platforms.trendyol import (
+    extract_category_links,
+    generate_pagination_urls,
+    extract_products_from_category_page,
 )
 
 parser = ArgumentParser()
@@ -22,14 +22,14 @@ JSONPATH = os.path.join(opt.path, "{}.json".format(opt.platform_name))
 SAVER = ProductSaver(opt.path, opt.platform_name)
 
 soup = get_soup(opt.platform_url)
-category_links = get_category_links(soup, opt.categories)
+category_links = extract_category_links(soup, opt.categories)
 
-progress = tqdm(category_links, desc = opt.platform_name, ncols=100, colour="green")
+progress = tqdm(category_links, desc=opt.platform_name, ncols=100, colour="green")
 for category_link in progress:
-    links = get_category_pages(category_link)
+    links = generate_pagination_urls(category_link)
     for link in links:
         soup = get_soup(link)
-        products = get_category_products(soup)
+        products = extract_products_from_category_page(soup)
         SAVER.product_list(products)
 
 DRIVER.quit()
