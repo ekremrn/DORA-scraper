@@ -2,8 +2,8 @@ import os
 from bs4 import BeautifulSoup
 from typing import List, Dict
 
-from dora_scraper.utils.structures import Currencies
-from dora_scraper.utils.standardizers import price_dict, thumb_image_dict, product_dict
+from dora_scraper.structures import Currencies
+from dora_scraper.standardizers import price_dict, thumb_image_dict, product_dict
 
 
 def extract_category_links(soup: BeautifulSoup, categories: List[str]) -> List[str]:
