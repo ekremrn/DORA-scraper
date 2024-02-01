@@ -13,8 +13,17 @@ from webdriver_manager.chrome import ChromeDriverManager
 def create_driver():
     options = ChromeOptions()
     options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--single-process")
+    options.add_argument("--disable-notifications")
+    options.add_argument("--disable-infobars")
+    options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--ignore-ssl-errors=yes")
     options.add_argument("--ignore-certificate-errors")
+    options.add_argument(
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/"
+        "537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"
+    )
     return Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 
@@ -32,14 +41,12 @@ class Browser:
 
         except NoSuchWindowException:
             logging.error("Driver: NoSuchWindowException")
-            del self._DRIVER
             sleep(self.__DELAY)
             self._DRIVER = create_driver()
             return self.get_soup(url)
 
         except Exception as e:
             logging.error(e)
-            del self._DRIVER
             sleep(self.__DELAY)
             self._DRIVER = create_driver()
             return self.get_soup(url)
