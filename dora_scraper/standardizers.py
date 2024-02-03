@@ -61,7 +61,7 @@ def product_dict(
         dict: A dictionary containing the product information.
     """
     product_dict = {
-        "_id": id,
+        "_id": int(id),
         "platform": platform,
         "brand": brand,
         "name": name,
